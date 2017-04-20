@@ -34,13 +34,24 @@ public class LogLib {
 
     /**
      * Generate a file name by current time
-     * @param prefix File prefix name
+     * @param prefix Prefix
+     * @param postfix Postfix
      * @param ext File extension name
      * @return File name
      */
-    public String genFileName(@NonNull String prefix, @NonNull String ext) {
+    public String genFileName(@NonNull String prefix, @NonNull String postfix, @NonNull String ext) {
         SimpleDateFormat logFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
-        String fileName = prefix + "_" + logFormat.format(new Date()) + "." + ext;
+        String fileName = "";
+        if (prefix.isEmpty()) {
+            fileName += logFormat.format(new Date());
+        } else {
+            fileName += prefix + "_" + logFormat.format(new Date());
+        }
+        if (postfix.isEmpty()) {
+            fileName += "." + ext;
+        } else {
+            fileName += "_" + postfix + "." + ext;
+        }
         KLog.d("fileName: " + fileName);
         return fileName;
     }
