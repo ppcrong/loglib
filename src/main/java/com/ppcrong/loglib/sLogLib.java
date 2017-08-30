@@ -50,6 +50,30 @@ public class sLogLib {
     }
 
     /**
+     * Generate a file name by current time with millisecond
+     * @param prefix Prefix
+     * @param postfix Postfix
+     * @param ext File extension name
+     * @return File name
+     */
+    public static String genFileNameWithMs(@NonNull String prefix, @NonNull String postfix, @NonNull String ext) {
+        SimpleDateFormat logFormat = new SimpleDateFormat("yyyyMMdd_HHmmss.SSS", Locale.US);
+        String fileName = "";
+        if (prefix.isEmpty()) {
+            fileName += logFormat.format(new Date());
+        } else {
+            fileName += prefix + "_" + logFormat.format(new Date());
+        }
+        if (postfix.isEmpty()) {
+            fileName += "." + ext;
+        } else {
+            fileName += "_" + postfix + "." + ext;
+        }
+        KLog.d("fileName: " + fileName);
+        return fileName;
+    }
+
+    /**
      * Create directory in external storage
      *
      * @param subDir The subfolder in external storage
