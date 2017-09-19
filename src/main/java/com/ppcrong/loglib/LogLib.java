@@ -21,9 +21,9 @@ import java.util.Locale;
  */
 public class LogLib {
 
-    //region External Storage
+    // region [External Storage]
 
-    //region Common
+    // region [Common]
 
     /**
      * Ctor
@@ -126,9 +126,9 @@ public class LogLib {
         KLog.d("External Storage isn't readable");
         return false;
     }
-    //endregion
+    // endregion [Common]
 
-    //region Logging
+    // region [Logging]
     private Object mLock = new Object();
     private File fileLog = null;
     private FileOutputStream mFileOutputStream = null;
@@ -181,6 +181,21 @@ public class LogLib {
         synchronized (mLock) {
             try {
                 if (mOutputStreamWriter != null) mOutputStreamWriter.write(data);
+            } catch (IOException e) {
+                KLog.e(Log.getStackTraceString(e));
+            }
+        }
+    }
+
+    /**
+     * Write byte array to log file
+     *
+     * @param bytes The data to write
+     */
+    public void writeLog(byte[] bytes) {
+        synchronized (mLock) {
+            try {
+                if (mFileOutputStream != null) mFileOutputStream.write(bytes);
             } catch (IOException e) {
                 KLog.e(Log.getStackTraceString(e));
             }
@@ -247,9 +262,9 @@ public class LogLib {
         }
         return path;
     }
-    //endregion
+    // endregion [Logging]
 
-    //region Save/Read File
+    // region [Save/Read File]
 
     /**
      * Check external storage writable and save data to file
@@ -366,7 +381,7 @@ public class LogLib {
         KLog.d("Read from file: " + sb.toString());
         return sb.toString();
     }
-    //endregion
+    // endregion [Save/Read File]
 
-    //endregion
+    // endregion [External Storage]
 }

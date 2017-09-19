@@ -21,9 +21,9 @@ import java.util.Locale;
  */
 public class sLogLib {
 
-    //region External Storage
+    // region [External Storage]
 
-    //region Common
+    // region [Common]
 
     /**
      * Generate a file name by current time
@@ -133,9 +133,9 @@ public class sLogLib {
             }
         }
     }
-    //endregion
+    // endregion [Common]
 
-    //region Logging
+    // region [Logging]
     private static Object mLock = new Object();
     private static File fileLog = null;
     private static FileOutputStream mFileOutputStream = null;
@@ -188,6 +188,21 @@ public class sLogLib {
         synchronized (mLock) {
             try {
                 if (mOutputStreamWriter != null) mOutputStreamWriter.write(data);
+            } catch (IOException e) {
+                KLog.e(Log.getStackTraceString(e));
+            }
+        }
+    }
+
+    /**
+     * Write byte array to log file
+     *
+     * @param bytes The data to write
+     */
+    public static void writeLog(byte[] bytes) {
+        synchronized (mLock) {
+            try {
+                if (mFileOutputStream != null) mFileOutputStream.write(bytes);
             } catch (IOException e) {
                 KLog.e(Log.getStackTraceString(e));
             }
@@ -254,9 +269,9 @@ public class sLogLib {
         }
         return path;
     }
-    //endregion
+    // endregion [Logging]
 
-    //region Save/Read File
+    // region [Save/Read File]
 
     /**
      * Check external storage writable and save data to file
@@ -373,7 +388,7 @@ public class sLogLib {
         KLog.d("Read from file: " + sb.toString());
         return sb.toString();
     }
-    //endregion
+    // endregion [Save/Read File]
 
-    //endregion
+    // endregion [External Storage]
 }
