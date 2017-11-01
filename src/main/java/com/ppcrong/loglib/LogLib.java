@@ -52,7 +52,7 @@ public class LogLib {
         } else {
             fileName += "_" + postfix + "." + ext;
         }
-        KLog.d("fileName: " + fileName);
+        KLog.i("fileName: " + fileName);
         return fileName;
     }
 
@@ -76,7 +76,7 @@ public class LogLib {
         } else {
             fileName += "_" + postfix + "." + ext;
         }
-        KLog.d("fileName: " + fileName);
+        KLog.i("fileName: " + fileName);
         return fileName;
     }
 
@@ -87,7 +87,7 @@ public class LogLib {
      * @return The directory
      */
     public File getExDir(String subDir) {
-        KLog.d("subDir: " + subDir);
+        KLog.i("subDir: " + subDir);
         // Get the subFolder of external storage.
         File file = new File(Environment.getExternalStorageDirectory(), subDir);
         if (!file.exists()) {
@@ -108,7 +108,7 @@ public class LogLib {
         if (Environment.MEDIA_MOUNTED.equals(state)) {
             return true;
         }
-        KLog.d("External Storage isn't writable");
+        KLog.i("External Storage isn't writable");
         return false;
     }
 
@@ -123,7 +123,7 @@ public class LogLib {
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             return true;
         }
-        KLog.d("External Storage isn't readable");
+        KLog.i("External Storage isn't readable");
         return false;
     }
     // endregion [Common]
@@ -142,7 +142,7 @@ public class LogLib {
      * @return true is open ok, false is open fail
      */
     public boolean openLogFile(File fileDir, String fileName) {
-        KLog.d("fileLog: " + fileDir.getPath() + File.separator + fileName);
+        KLog.i("fileLog: " + fileDir.getPath() + File.separator + fileName);
 
         boolean bRet = false;
         if (isExternalStorageWritable()) {
@@ -152,10 +152,10 @@ public class LogLib {
                 try {
                     if (fileLog.exists()) {
                         boolean b = fileLog.delete();
-                        KLog.d("Delete " + (b ? "ok" : "fail"));
+                        KLog.i("Delete " + (b ? "ok" : "fail"));
                     }
                     boolean b = fileLog.createNewFile();
-                    KLog.d("Create " + (b ? "ok" : "fail"));
+                    KLog.i("Create " + (b ? "ok" : "fail"));
                     mFileOutputStream = new FileOutputStream(fileLog);
                     mOutputStreamWriter = new OutputStreamWriter(mFileOutputStream);
                     bRet = true;
@@ -207,10 +207,10 @@ public class LogLib {
      */
     public void closeLogFile() {
         if (fileLog == null) {
-            KLog.d("fileLog is null ");
+            KLog.i("fileLog is null ");
             return;
         }
-        KLog.d("fileLog: " + fileLog.getPath());
+        KLog.i("fileLog: " + fileLog.getPath());
         synchronized (mLock) {
             if (mOutputStreamWriter != null) {
                 try {
@@ -237,11 +237,11 @@ public class LogLib {
      */
     public String closeLogFileReturnPath() {
         if (fileLog == null) {
-            KLog.d("fileLog is null ");
+            KLog.i("fileLog is null ");
             return "";
         }
         String path = fileLog.getPath();
-        KLog.d("fileLog: " + path);
+        KLog.i("fileLog: " + path);
         synchronized (mLock) {
             if (mOutputStreamWriter != null) {
                 try {
@@ -274,7 +274,7 @@ public class LogLib {
      * @param data     The data to save
      */
     synchronized public void saveFile(File fileDir, String fileName, String data) {
-        KLog.d("file: " + fileDir.getPath() + File.separator + fileName);
+        KLog.i("file: " + fileDir.getPath() + File.separator + fileName);
         if (isExternalStorageWritable()) {
             writeToFile(fileDir, fileName, data);
         }
@@ -288,17 +288,17 @@ public class LogLib {
      * @param data     The data to write
      */
     synchronized private void writeToFile(File fileDir, String fileName, String data) {
-        KLog.d("file: " + fileDir.getPath() + File.separator + fileName);
+        KLog.i("file: " + fileDir.getPath() + File.separator + fileName);
 
         // Create file
         File fileWrite = new File(fileDir, fileName);
         try {
             if (fileWrite.exists()) {
                 boolean b = fileWrite.delete();
-                KLog.d("Delete " + (b ? "ok" : "fail"));
+                KLog.i("Delete " + (b ? "ok" : "fail"));
             }
             boolean b = fileWrite.createNewFile();
-            KLog.d("Create " + (b ? "ok" : "fail"));
+            KLog.i("Create " + (b ? "ok" : "fail"));
         } catch (IOException e) {
             KLog.e(Log.getStackTraceString(e));
         } catch (Exception e) {
@@ -336,7 +336,7 @@ public class LogLib {
      * @return The read data
      */
     synchronized public String readFile(File fileDir, String fileName) {
-        KLog.d("file: " + fileDir.getPath() + File.separator + fileName);
+        KLog.i("file: " + fileDir.getPath() + File.separator + fileName);
         if (isExternalStorageReadable()) {
             return readFromFile(fileDir, fileName);
         }
@@ -344,12 +344,12 @@ public class LogLib {
     }
 
     synchronized private String readFromFile(File fileDir, String fileName) {
-        KLog.d("file: " + fileDir.getPath() + File.separator + fileName);
+        KLog.i("file: " + fileDir.getPath() + File.separator + fileName);
 
         // The read file
         File fileRead = new File(fileDir, fileName);
         if (!fileRead.exists()) {
-            KLog.d("File doesn't exist");
+            KLog.i("File doesn't exist");
             return "File doesn't exist";
         }
 
@@ -378,7 +378,7 @@ public class LogLib {
             }
         }
 
-        KLog.d("Read from file: " + sb.toString());
+        KLog.i("Read from file: " + sb.toString());
         return sb.toString();
     }
     // endregion [Save/Read File]
