@@ -1,6 +1,6 @@
 ext {
     extraLibrary = [
-    // For log (KLog)
-    'com.github.zhaokaiqiang.klog:library:1.6.0'
+            // KLog
+            'com.github.zhaokaiqiang.klog:library:1.6.0'
     ]
 }

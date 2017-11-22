@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 def extraLibraryFile = new File("${project.projectDir}/extraLibraries.gradle")
-if(extraLibraryFile.exists()){
+if (extraLibraryFile.exists()) {
     apply from: "${project.projectDir}/extraLibraries.gradle"
 }
 
@@ -32,8 +32,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    if (extraLibraryFile.exists()){
-        extraLibrary.each{implementation it}
+    if (extraLibraryFile.exists()) {
+        extraLibrary.each { implementation it }
     }
 }
 
