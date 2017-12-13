@@ -120,18 +120,20 @@ public class sLogLib {
         return false;
     }
 
-    public static void deleteAllFiles(String dir) {
+    public static void deleteAllFiles(@NonNull String dir) {
         KLog.i("Directory = " + dir);
         File fileDir = new File(dir);
-        if (fileDir.isDirectory())
-        {
-            String[] children = fileDir.list();
-            for (int i = 0; i < children.length; i++)
-            {
-                boolean b = new File(fileDir, children[i]).delete();
-                KLog.i("Delete " + children[i] + " " + (b ? "ok" : "fail"));
-            }
-        }
+        deleteRecursive(fileDir);
+    }
+
+    public static void deleteRecursive(File fileOrDirectory) {
+
+        if (fileOrDirectory.isDirectory())
+            for (File child : fileOrDirectory.listFiles())
+                deleteRecursive(child);
+
+        boolean b = fileOrDirectory.delete();
+        KLog.i("Delete " + fileOrDirectory.getPath() + " " + (b ? "ok" : "fail"));
     }
     // endregion [Common]
 
