@@ -390,6 +390,59 @@ public class sLogLib {
         KLog.i("Read from file: " + sb.toString());
         return sb.toString();
     }
+
+    /**
+     * Check external storage readable and read data from file
+     *
+     * @param fullFilePath  The full path of the file to read
+     * @return The read byte array
+     */
+    synchronized public static byte[] readFile(String fullFilePath) {
+
+        KLog.i("file: " + fullFilePath);
+
+        if (isExternalStorageReadable()) {
+            return readFromFile(fullFilePath);
+        }
+        return null;
+    }
+
+    synchronized private static byte[] readFromFile(String fullFilePath) {
+
+        KLog.i("file: " + fullFilePath);
+        byte[] bytes = null;
+
+        // The read file
+        File fileRead = new File(fullFilePath);
+        if (!fileRead.exists()) {
+            KLog.i("File doesn't exist");
+            return bytes;
+        }
+
+        // Read data from file
+        FileInputStream s = null;
+        try {
+            s = new FileInputStream(fileRead);
+            if (s != null) {
+                bytes = new byte[s.available()];
+                s.read(bytes);
+            }
+        } catch (FileNotFoundException e) {
+            KLog.e(Log.getStackTraceString(e));
+        } catch (IOException e) {
+            KLog.e(Log.getStackTraceString(e));
+        } catch (Exception e) {
+            KLog.e(Log.getStackTraceString(e));
+        } finally {
+            try {
+                if (s != null) s.close();
+            } catch (Exception e) {
+                KLog.e(Log.getStackTraceString(e));
+            }
+        }
+
+        return bytes;
+    }
     // endregion [Save/Read File]
 
     // endregion [External Storage]
