@@ -1,8 +1,10 @@
 package com.ppcrong.loglib;
 
+import android.content.Context;
 import android.os.Environment;
-import androidx.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.socks.library.KLog;
 
@@ -27,9 +29,10 @@ public class sLogLib {
 
     /**
      * Generate a file name by current time
-     * @param prefix Prefix
+     *
+     * @param prefix  Prefix
      * @param postfix Postfix
-     * @param ext File extension name
+     * @param ext     File extension name
      * @return File name
      */
     public static String genFileName(@NonNull String prefix, @NonNull String postfix, @NonNull String ext) {
@@ -51,9 +54,10 @@ public class sLogLib {
 
     /**
      * Generate a file name by current time with millisecond
-     * @param prefix Prefix
+     *
+     * @param prefix  Prefix
      * @param postfix Postfix
-     * @param ext File extension name
+     * @param ext     File extension name
      * @return File name
      */
     public static String genFileNameWithMs(@NonNull String prefix, @NonNull String postfix, @NonNull String ext) {
@@ -78,11 +82,31 @@ public class sLogLib {
      *
      * @param subDir The subfolder in external storage
      * @return The directory
+     * @deprecated Use {@link #getExDir(Context, String)} instead.
      */
+    @Deprecated
     public static File getExDir(String subDir) {
         KLog.i("subDir: " + subDir);
         // Get the subFolder of external storage.
         File file = new File(Environment.getExternalStorageDirectory(), subDir);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                KLog.e("subDir not created");
+            }
+        }
+        return file;
+    }
+
+    /**
+     * Create directory in external storage
+     *
+     * @param subDir The subfolder in external storage
+     * @return The directory
+     */
+    public static File getExDir(Context ctx, String subDir) {
+        KLog.i("subDir: " + subDir);
+        // Get the subFolder of external storage.
+        File file = new File(ctx.getExternalFilesDir(null), subDir);
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 KLog.e("subDir not created");
@@ -242,6 +266,7 @@ public class sLogLib {
 
     /**
      * Close log file and return path
+     *
      * @return File path
      */
     public static String closeLogFileReturnPath() {
@@ -394,7 +419,7 @@ public class sLogLib {
     /**
      * Check external storage readable and read data from file
      *
-     * @param fullFilePath  The full path of the file to read
+     * @param fullFilePath The full path of the file to read
      * @return The read byte array
      */
     synchronized public static byte[] readFile(String fullFilePath) {
