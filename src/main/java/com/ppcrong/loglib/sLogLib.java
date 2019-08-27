@@ -144,12 +144,22 @@ public class sLogLib {
         return false;
     }
 
+    /**
+     * Delete all files in specific folder.
+     *
+     * @param dir The directory to be deleted.
+     */
     public static void deleteAllFiles(@NonNull String dir) {
         KLog.i("Directory = " + dir);
         File fileDir = new File(dir);
         deleteRecursive(fileDir);
     }
 
+    /**
+     * Delete all files in specific folder.
+     *
+     * @param fileOrDirectory The file or directory to be deleted.
+     */
     public static void deleteRecursive(File fileOrDirectory) {
 
         if (fileOrDirectory.isDirectory())
