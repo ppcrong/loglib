@@ -1,6 +1,0 @@
-ext {
-    extraLibrary = [
-            // KLog
-            'com.github.zhaokaiqiang.klog:library:1.6.0'
-    ]
-}
